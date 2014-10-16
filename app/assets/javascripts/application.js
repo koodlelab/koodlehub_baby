@@ -15,3 +15,9 @@
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function() {
+  $('.field').on('keyup', '#micropost_content', function() {
+    $('#remaining_chars').text(140-$(this).val().length);
+  });
+});

@@ -28,6 +28,22 @@ describe "User pages" do
     end
   end
 
+  describe "micropost pagination" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      50.times { FactoryGirl.create(:micropost, user: user) }
+      visit user_path(user)
+    end
+
+    it { should have_selector('div.pagination') }
+    it "should list each micropost" do
+      Micropost.paginate(page: 1).each do |micropost|
+        expect(page).to have_selector('li', text: micropost.content)
+      end
+    end
+  end
+
   describe "index" do
     before do
       sign_in FactoryGirl.create(:user)
